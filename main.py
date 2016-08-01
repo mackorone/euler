@@ -1,0 +1,1 @@
+print('That was easy!')
