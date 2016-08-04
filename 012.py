@@ -1,4 +1,4 @@
-from prime import get_divisors
+from divisors import get_divisors
     
 
 def ans():

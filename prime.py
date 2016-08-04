@@ -1,25 +1,40 @@
 from bisect import bisect_right
 from collections import defaultdict
-from functools import reduce
-from itertools import combinations
-from math import sqrt
+from math import (
+    ceil,
+    sqrt,
+)
 
 
 _PRIMES = [2, 3]
 
 
-def _append():
-    (candidate, flag) = (_PRIMES[-1], False)
-    while not flag:
-        (candidate, flag) = (candidate + 2, True)
-        end = int(sqrt(candidate)) + 1
-        for prime in _PRIMES:
-            if end < prime:
-                break
-            if candidate % prime == 0:
-                flag = False
-                break
-    _PRIMES.append(candidate)
+def _append_one():
+   (candidate, flag) = (_PRIMES[-1], False)
+   while not flag:
+       (candidate, flag) = (candidate + 2, True)
+       end = int(sqrt(candidate)) + 1
+       for prime in _PRIMES:
+           if end < prime:
+               break
+           if candidate % prime == 0:
+               flag = False
+               break
+   _PRIMES.append(candidate)
+
+
+def _append_many(): 
+    largest = _PRIMES[-1]
+    lower_bound = largest + 1
+    upper_bound = largest * 2 + 1
+    candidates = [True] * (upper_bound - lower_bound)
+    for prime in _PRIMES:
+        first_index = int(ceil(lower_bound / prime)) * prime
+        for i in range(first_index, upper_bound, prime):
+            candidates[i - lower_bound] = False
+    for i in range(len(candidates)):
+        if candidates[i]:
+            _PRIMES.append(i + lower_bound)
 
 
 def is_prime(n):
@@ -29,7 +44,7 @@ def is_prime(n):
         return False
     end = int(sqrt(n)) + 1
     while _PRIMES[-1] < end:
-        _append()
+        _append_many()
     return n in set(_PRIMES)
 
 
@@ -37,7 +52,7 @@ def next_prime(n):
     """ Returns the next prime number greater than n
     """
     while _PRIMES[-1] <= n:
-        _append()
+        _append_many()
     return _PRIMES[bisect_right(_PRIMES, n)]
 
 
@@ -69,16 +84,3 @@ def flatten_prime_factors(prime_factors):
 
 def get_flat_prime_factors(n):
     return flatten_prime_factors(get_prime_factors(n))
-
-
-def get_divisors(n):
-    """ Returns a set of all divisors of n
-    """
-    if n < 1:
-        return set()
-    flat_factors = get_flat_prime_factors(n)
-    divisors = set([1, n])
-    for i in range(len(flat_factors)):
-        for comb in combinations(flat_factors, i + 1):
-            divisors.add(reduce(lambda x, y: x * y, comb))
-    return divisors
