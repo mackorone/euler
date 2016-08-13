@@ -1,5 +1,6 @@
 from prime import get_prime_factors
 
+
 def ans():
     factors = {}
     for i in range(20):
@@ -11,6 +12,7 @@ def ans():
         for i in range(count):
             total *= factor
     return total
+
 
 if __name__ == '__main__':
     print(ans())

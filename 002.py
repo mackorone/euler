@@ -7,5 +7,6 @@ def ans():
         (x, y) = (y, x + y)
     return total
 
+
 if __name__ == '__main__':
     print(ans())

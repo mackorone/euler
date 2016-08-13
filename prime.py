@@ -29,8 +29,8 @@ def _append_many():
     upper_bound = largest * 2 + 1
     candidates = [True] * (upper_bound - lower_bound)
     for prime in _PRIMES:
-        first_index = int(ceil(lower_bound / prime)) * prime
-        for i in range(first_index, upper_bound, prime):
+        lowest_multiple = int(ceil(lower_bound / prime)) * prime
+        for i in range(lowest_multiple, upper_bound, prime):
             candidates[i - lower_bound] = False
     for i in range(len(candidates)):
         if candidates[i]:

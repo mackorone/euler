@@ -1,5 +1,6 @@
 from prime import next_prime
 
+
 def ans():
     total = 0
     num = 2
@@ -7,6 +8,7 @@ def ans():
         total += num
         num = next_prime(num)
     return total
+
 
 if __name__ == '__main__':
     print(ans())

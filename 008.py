@@ -9,5 +9,6 @@ def ans():
         largest = max(largest, product)
     return largest
 
+
 if __name__ == '__main__':
     print(ans())

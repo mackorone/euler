@@ -5,5 +5,6 @@ def ans():
         x % 3 == 0 or x % 5 == 0
     )
 
+
 if __name__ == '__main__':
     print(ans())
