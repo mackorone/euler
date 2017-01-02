@@ -1,10 +1,13 @@
+from fib import next_fib
+
+
 def ans():
     total = 0
-    (x, y) = (1, 2)
-    while x < 4000000:
-        if x % 2 == 0:
-            total += x
-        (x, y) = (y, x + y)
+    num = 1
+    while num < 4000000:
+        if num % 2 == 0:
+            total += num
+        num = next_fib(num)
     return total
 
 
