@@ -1,3 +1,4 @@
+from enum import Enum
 from glob import glob
 from json import loads
 from subprocess import (
@@ -20,11 +21,30 @@ def color(string, value):
     )
 
 
-def check(filenames, stream):
+class Outcome(Enum):
 
-    answers = loads(open('answers.txt').read())
-    fail_mark = color(u'\u2717', 31)
-    pass_mark = color(u'\u2714', 32)
+    # NAME = (COLOR, SYMBOL)
+    ERROR = (34, u'\u2049')
+    FAILED = (31, u'\u2717')
+    PASSED = (32, u'\u2714')
+
+    @property
+    def symbol(self):
+        return color(self.value[1], self.value[0])
+
+    @property
+    def text(self):
+        names = [x.name for x in list(Outcome)]
+        max_length = max(len(x) for x in names)
+        return color(self.name.ljust(max_length), self.value[0])
+
+
+def check(answers, filenames, stream):
+
+    results = {x: 0 for x in list(Outcome)}
+    def count_result(outcome):
+        results[outcome] += 1
+        return outcome.symbol
 
     for filename in filenames:
 
@@ -32,29 +52,51 @@ def check(filenames, stream):
         stream.flush()
 
         start = time()
-        process = Popen(['python3.5', filename], stdout=PIPE)
-        end = time()
+        process = Popen(
+            ['python3.5', filename],
+            stdout=PIPE,
+            stderr=PIPE,
+        )
 
         try:
-            answer = int(process.communicate()[0])
+            answer = int(process.stdout.read())
         except ValueError:
             answer = None
         correct_answer = answers.get(filename)
-        stream.write(' - {}'.format(
-            pass_mark
-            if answer is not None and answer == correct_answer
-            else fail_mark
-        ))
 
-        duration = format(time() - start, '.3f')
+        if answer is None or correct_answer is None:
+            symbol = count_result(Outcome.ERROR)
+        elif answer == correct_answer:
+            symbol = count_result(Outcome.PASSED)
+        else:
+            symbol = count_result(Outcome.FAILED)
+        stream.write(' - {}'.format(symbol))
+
+        duration = str(time() - start)[:5]
         stream.write(' - {}\n'.format(duration))
+
+    stream.write('-' * 18 + '\n')
+    for outcome in [
+        Outcome.PASSED,
+        Outcome.FAILED,
+        Outcome.ERROR,
+    ]:
+        stream.write('{} - {}\n'.format(
+            outcome.text,
+            results[outcome],
+        ))
 
 
 if __name__ == '__main__':
     
+    try:
+        answers = loads(open('answers.txt').read())
+    except FileNotFoundError:
+        answers = {}
+
     if 1 < len(argv):
         filenames = argv[1:]
     else:
         filenames = sorted(glob('[0-9][0-9][0-9].py'))
 
-    check(filenames, stdout)
+    check(answers, filenames, stdout)
