@@ -17,7 +17,7 @@ def is_fib(n):
 
 
 def next_fib(n):
-    """ Returns the next prime fibonacci number greater than n
+    """ Returns the next fibonacci number greater than n
     """
     while _FIBS[-1] <= n:
         _append_one()

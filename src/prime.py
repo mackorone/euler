@@ -37,6 +37,15 @@ def _append_many():
             _PRIMES.append(i + lower_bound)
 
 
+def primes(end=None):
+    """ Returns a generator for the prime numbers
+    """
+    prime = next_prime(0)
+    while prime < end if end is not None else True:
+        yield prime
+        prime = next_prime(prime)
+
+
 def is_prime(n):
     """ Returns True if n is prime, False otherwise
     """
@@ -45,7 +54,10 @@ def is_prime(n):
     end = int(sqrt(n)) + 1
     while _PRIMES[-1] < end:
         _append_many()
-    return n in set(_PRIMES)
+    for p in primes(end):
+        if n % p == 0:
+            return False
+    return True
 
 
 def next_prime(n):
@@ -70,17 +82,14 @@ def get_prime_factors(n):
     return dict(prime_factors)
 
 
-def flatten_prime_factors(prime_factors):
-    """ map<prime_factor, count> -> list<prime_factor>
-    (where each prime factor is repeated "count" times)
+def get_flat_prime_factors(n):
+    """ Returns a sorted list of n's prime_factor, where each
+    prime factor is repeated the number of times it divides n
     """
+    prime_factors = get_prime_factors(n)
     return sorted([
         x for list_ in (
             [factor] * count for
             factor, count in prime_factors.items()
         ) for x in list_
     ])
-
-
-def get_flat_prime_factors(n):
-    return flatten_prime_factors(get_prime_factors(n))

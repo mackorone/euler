@@ -1,13 +1,8 @@
-from prime import next_prime
+from prime import primes
 
 
 def ans():
-    total = 0
-    num = 2
-    while num < 2000000:
-        total += num
-        num = next_prime(num)
-    return total
+    return sum(primes(2000000))
 
 
 if __name__ == '__main__':

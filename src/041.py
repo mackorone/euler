@@ -1,4 +1,4 @@
-from prime import next_prime
+from prime import primes
 
 
 def is_pandigital(x):
@@ -11,12 +11,10 @@ def is_pandigital(x):
 
 
 def ans():
-    prime = 2
     largest = None
-    while prime < 10000000:
+    for prime in primes(10000000):
         if is_pandigital(prime):
             largest = prime
-        prime = next_prime(prime)
     return largest
 
 
