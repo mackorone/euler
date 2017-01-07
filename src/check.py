@@ -34,57 +34,90 @@ class Outcome(Enum):
 
     @property
     def text(self):
-        names = [x.name for x in list(Outcome)]
-        max_length = max(len(x) for x in names)
-        return color(self.name.ljust(max_length), self.value[0])
+        return color(self.name, self.value[0])
 
 
 def check(answers, filenames, stream):
 
-    results = {x: 0 for x in list(Outcome)}
-    def count_result(outcome):
-        results[outcome] += 1
+    separator = ' - '
+    duration_length = 5
+    max_file_length = max(len(x) for x in filenames)
+
+    results = {x: [0, 0.0] for x in list(Outcome)}
+    def count_result(outcome, duration):
+        results[outcome][0] += 1
+        results[outcome][1] += duration
         return outcome.symbol
 
     for filename in filenames:
 
-        stream.write(filename)
+        # Write the filename
+        stream.write(filename.ljust(max_file_length))
         stream.flush()
 
+        # Run the problem
         start = time()
         process = Popen(
             ['python3.5', filename],
             stdout=PIPE,
             stderr=PIPE,
         )
-
         try:
             answer = int(process.stdout.read())
         except ValueError:
             answer = None
+        duration = time() - start
+
+        # Print the symbol
         correct_answer = answers.get(filename)
-
         if answer is None or correct_answer is None:
-            symbol = count_result(Outcome.ERROR)
+            symbol = count_result(Outcome.ERROR, duration)
         elif answer == correct_answer:
-            symbol = count_result(Outcome.PASSED)
+            symbol = count_result(Outcome.PASSED, duration)
         else:
-            symbol = count_result(Outcome.FAILED)
-        stream.write(' - {}'.format(symbol))
+            symbol = count_result(Outcome.FAILED, duration)
+        stream.write(separator + symbol)
 
-        duration = str(time() - start)[:5]
-        stream.write(' - {}\n'.format(duration))
+        # Print the duration and newline
+        stream.write(separator + str(duration)[:duration_length])
+        stream.write('\n')
 
-    stream.write('-' * 18 + '\n')
+    # Print a dashed line separating results from outcome totals
+    stream.write('-' * (
+        max_file_length +
+        2 * len(separator) +
+        1 + # len(symbol)
+        duration_length
+    ) + '\n')
+
+    # Print outcome totals
+    max_outcome_length = max(len(x.name) for x in list(Outcome))
+    total_num_outcomes = sum(x[0] for x in results.values())
     for outcome in [
         Outcome.PASSED,
         Outcome.FAILED,
         Outcome.ERROR,
     ]:
-        stream.write('{} - {}\n'.format(
-            outcome.text,
-            results[outcome],
+        stream.write('{} - {} - {}\n'.format(
+            outcome.text + ' ' * (max_outcome_length - len(outcome.name)),
+            str(results[outcome][0]).rjust(len(str(total_num_outcomes))),
+            "{:.10f}".format(results[outcome][1])[:duration_length],
         ))
+
+    # Print a dashed line separating outcome totals from absolute totals
+    stream.write('-' * (
+        max_outcome_length +
+        2 * len(separator) +
+        len(str(total_num_outcomes)) +
+        duration_length
+    ) + '\n')
+
+    # Print absolute totals
+    stream.write('{} - {} - {}\n'.format(
+        'TOTAL'.ljust(max_outcome_length),
+        total_num_outcomes,
+        str(sum(x[1] for x in results.values()))[:duration_length],
+    ))
 
 
 if __name__ == '__main__':
