@@ -25,8 +25,8 @@ def next_fib(n):
 
 
 def fib_index(n):
-    """ Returns the index of the fibonacci number n (zero-indexed)
+    """ Returns the index of the fibonacci number n (one-indexed)
     """
     if not is_fib(n):
         raise Exception
-    return _FIBS.index(n)
+    return _FIBS.index(n) + 1

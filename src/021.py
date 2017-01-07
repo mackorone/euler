@@ -1,5 +1,5 @@
+from divisor import get_divisors
 from functools import lru_cache
-from divisors import get_divisors
 
 
 @lru_cache(maxsize=None)

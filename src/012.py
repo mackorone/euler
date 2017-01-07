@@ -1,4 +1,4 @@
-from divisors import get_divisors
+from divisor import get_divisors
     
 
 def ans():

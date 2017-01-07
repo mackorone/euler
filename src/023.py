@@ -1,4 +1,4 @@
-from divisors import get_proper_divisors
+from divisor import get_proper_divisors
 
 
 def is_abundant(n):

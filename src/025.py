@@ -1,4 +1,4 @@
-from fib import (
+from fibonacci import (
     fib_index,
     next_fib,
 )

@@ -1,4 +1,4 @@
-from fib import next_fib
+from fibonacci import next_fib
 
 
 def ans():
