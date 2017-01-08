@@ -1,3 +1,6 @@
+from path import dirpath
+
+
 def get_value(name):
     return sum(
         ord(c) - ord('A') + 1 for
@@ -6,7 +9,7 @@ def get_value(name):
 
 
 def ans():
-    data = open('022.txt').read()
+    data = open(dirpath() + '022.txt').read()
     names = sorted([
         name.strip('"') for
         name in data.split(',')

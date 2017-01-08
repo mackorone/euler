@@ -1,3 +1,6 @@
+from path import dirpath
+
+
 LENGTH = 4
 
 
@@ -21,7 +24,7 @@ def helper(grid, row, col, row_inc, col_inc, length, acc):
 
 
 def ans():
-    lines = open('011.txt').readlines()
+    lines = open(dirpath() + '011.txt').readlines()
     grid = [
         [int(x) for x in line.split()]
         for line in lines

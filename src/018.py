@@ -1,4 +1,5 @@
 from functools import lru_cache
+from path import dirpath
 
 
 @lru_cache(maxsize=None)
@@ -12,7 +13,7 @@ def max_path_value(triangle, row, col):
 
 
 def ans():
-    lines = open('018.txt').readlines()
+    lines = open(dirpath() + '018.txt').readlines()
     triangle = tuple([
         tuple([
             int(x) for x in line.split()

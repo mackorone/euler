@@ -1,6 +1,11 @@
+from datetime import datetime
 from enum import Enum
 from glob import glob
 from json import loads
+from path import (
+    dirpath,
+    filename,
+)
 from subprocess import (
     PIPE,
     Popen,
@@ -10,15 +15,6 @@ from sys import (
     stdout,
 )
 from time import time
-
-
-def color(string, value):
-    template = '\033[{}m'
-    return '{}{}{}'.format(
-        template.format(value),
-        string,
-        template.format(0),
-    )
 
 
 class Outcome(Enum):
@@ -37,28 +33,43 @@ class Outcome(Enum):
         return color(self.name, self.value[0])
 
 
-def check(answers, filenames, stream):
+def color(string, value):
+    template = '\033[{}m'
+    return '{}{}{}'.format(
+        template.format(value),
+        string,
+        template.format(0),
+    )
+
+
+def format_duration(duration):
+    return datetime.fromtimestamp(duration).strftime('%M:%S.%f')[:9]
+
+
+def check(answers, paths, stream):
+
+    max_file_length = max(len(x) for x in paths)
 
     separator = ' - '
-    duration_length = 5
-    max_file_length = max(len(x) for x in filenames)
+    format_string = '%06.3f' # total length of 6
+    max_line_length = max_file_length + 2 * len(separator) + 7
 
-    results = {x: [0, 0.0] for x in list(Outcome)}
+    results = {x: [0, 0] for x in list(Outcome)}
     def count_result(outcome, duration):
         results[outcome][0] += 1
         results[outcome][1] += duration
         return outcome.symbol
 
-    for filename in filenames:
+    for path in paths:
 
-        # Write the filename
-        stream.write(filename.ljust(max_file_length))
+        # Write the path
+        stream.write(path.ljust(max_file_length))
         stream.flush()
 
         # Run the problem
         start = time()
         process = Popen(
-            ['python3.5', filename],
+            ['python3.5', path],
             stdout=PIPE,
             stderr=PIPE,
         )
@@ -69,7 +80,7 @@ def check(answers, filenames, stream):
         duration = time() - start
 
         # Print the symbol
-        correct_answer = answers.get(filename)
+        correct_answer = answers.get(filename(path))
         if answer is None or correct_answer is None:
             symbol = count_result(Outcome.ERROR, duration)
         elif answer == correct_answer:
@@ -79,20 +90,22 @@ def check(answers, filenames, stream):
         stream.write(separator + symbol)
 
         # Print the duration and newline
-        stream.write(separator + str(duration)[:duration_length])
-        stream.write('\n')
+        stream.write(separator + format_string % duration + '\n')
 
-    # Print a dashed line separating results from outcome totals
-    stream.write('-' * (
-        max_file_length +
-        2 * len(separator) +
-        1 + # len(symbol)
-        duration_length
-    ) + '\n')
-
-    # Print outcome totals
+    # Determine some line lengths for pretty-printing
     max_outcome_length = max(len(x.name) for x in list(Outcome))
     total_num_outcomes = sum(x[0] for x in results.values())
+    outcomes_line_length = (
+        max_outcome_length +
+        2 * len(separator) +
+        len(str(total_num_outcomes)) +
+        len(format_duration(time()))
+    )
+
+    # Print a dashed line separating results from outcome totals
+    stream.write('-' * max(max_line_length, outcomes_line_length) + '\n')
+
+    # Print outcome totals
     for outcome in [
         Outcome.PASSED,
         Outcome.FAILED,
@@ -101,35 +114,30 @@ def check(answers, filenames, stream):
         stream.write('{} - {} - {}\n'.format(
             outcome.text + ' ' * (max_outcome_length - len(outcome.name)),
             str(results[outcome][0]).rjust(len(str(total_num_outcomes))),
-            "{:.10f}".format(results[outcome][1])[:duration_length],
+            format_duration(results[outcome][1]),
         ))
 
     # Print a dashed line separating outcome totals from absolute totals
-    stream.write('-' * (
-        max_outcome_length +
-        2 * len(separator) +
-        len(str(total_num_outcomes)) +
-        duration_length
-    ) + '\n')
+    stream.write('-' * outcomes_line_length + '\n')
 
     # Print absolute totals
     stream.write('{} - {} - {}\n'.format(
         'TOTAL'.ljust(max_outcome_length),
         total_num_outcomes,
-        str(sum(x[1] for x in results.values()))[:duration_length],
+        format_duration(sum(x[1] for x in results.values())),
     ))
 
 
 if __name__ == '__main__':
-    
+
     try:
-        answers = loads(open('answers.txt').read())
+        answers = loads(open(dirpath() + 'answers.txt').read())
     except FileNotFoundError:
         answers = {}
 
     if 1 < len(argv):
-        filenames = argv[1:]
+        paths = argv[1:]
     else:
-        filenames = sorted(glob('[0-9][0-9][0-9].py'))
+        paths = sorted(glob(dirpath() + '[0-9][0-9][0-9].py'))
 
-    check(answers, filenames, stdout)
+    check(answers, paths, stdout)
