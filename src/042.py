@@ -1,14 +1,5 @@
 from path import dirpath
-
-
-_TRIANGLE_NUMS = [1, 3]
-
-
-def is_triangle(n):
-    while _TRIANGLE_NUMS[-1] < n:
-        next_ = 2 *_TRIANGLE_NUMS[-1] - _TRIANGLE_NUMS[-2] + 1
-        _TRIANGLE_NUMS.append(next_)
-    return n in set(_TRIANGLE_NUMS)
+from shape import is_triangle
 
 
 def ans():

@@ -21,8 +21,8 @@ class Outcome(Enum):
 
     # NAME = (COLOR, SYMBOL)
     ERROR = (34, u'\u2049')
-    FAILED = (31, u'\u2717')
-    PASSED = (32, u'\u2714')
+    FAIL = (31, u'\u2717')
+    PASS = (32, u'\u2714')
 
     @property
     def symbol(self):
@@ -84,9 +84,9 @@ def check(answers, paths, stream):
         if answer is None or correct_answer is None:
             symbol = count_result(Outcome.ERROR, duration)
         elif answer == correct_answer:
-            symbol = count_result(Outcome.PASSED, duration)
+            symbol = count_result(Outcome.PASS, duration)
         else:
-            symbol = count_result(Outcome.FAILED, duration)
+            symbol = count_result(Outcome.FAIL, duration)
         stream.write(separator + symbol)
 
         # Print the duration and newline
@@ -107,8 +107,8 @@ def check(answers, paths, stream):
 
     # Print outcome totals
     for outcome in [
-        Outcome.PASSED,
-        Outcome.FAILED,
+        Outcome.PASS,
+        Outcome.FAIL,
         Outcome.ERROR,
     ]:
         stream.write('{} - {} - {}\n'.format(
