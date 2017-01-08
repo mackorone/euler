@@ -1,5 +1,9 @@
 from bisect import bisect_right
-from collections import defaultdict
+from collections import (
+    defaultdict,
+    Counter,
+)
+from functools import lru_cache
 from math import (
     ceil,
     sqrt,
@@ -68,18 +72,16 @@ def next_prime(n):
     return _PRIMES[bisect_right(_PRIMES, n)]
 
 
+@lru_cache(maxsize=None)
 def get_prime_factors(n):
     """ Returns the counts of each prime factor of n
     """
-    prime_factors = defaultdict(int)
+    if n == 1:
+        return Counter()
     divisor = 2
-    while 1 < n:
-        if n % divisor == 0:
-            prime_factors[divisor] += 1
-            n //= divisor
-        else:
-            divisor = next_prime(divisor)
-    return dict(prime_factors)
+    while n % divisor != 0:
+        divisor = next_prime(divisor)
+    return Counter({divisor: 1}) + get_prime_factors(n // divisor)
 
 
 def get_flat_prime_factors(n):
