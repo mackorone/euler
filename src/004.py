@@ -1,5 +1,4 @@
-def is_pal(n):
-    return str(n) == str(n)[::-1]
+from palindrome import is_palindrome
 
 
 def ans():
@@ -7,7 +6,7 @@ def ans():
     for x in range(100, 999):
         for y in range(x, 999):
             product = x * y
-            if is_pal(product) and largest < product:
+            if is_palindrome(str(product)) and largest < product:
                 largest = product
     return largest
 
