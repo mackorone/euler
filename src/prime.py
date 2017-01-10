@@ -50,6 +50,7 @@ def primes(end=None):
         prime = next_prime(prime)
 
 
+@lru_cache(maxsize=None)
 def is_prime(n):
     """ Returns True if n is prime, False otherwise
     """
