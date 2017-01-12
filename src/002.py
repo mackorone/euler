@@ -1,4 +1,4 @@
-from fibonacci import next_fib
+from fibonacci import Fibonacci
 
 
 def ans():
@@ -7,7 +7,7 @@ def ans():
     while num < 4000000:
         if num % 2 == 0:
             total += num
-        num = next_fib(num)
+        num = Fibonacci.after(num)
     return total
 
 

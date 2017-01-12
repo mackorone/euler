@@ -1,4 +1,3 @@
-from bisect import bisect_right
 from collections import (
     defaultdict,
     Counter,
@@ -8,6 +7,7 @@ from math import (
     ceil,
     sqrt,
 )
+from search import next_
 
 
 _PRIMES = [2, 3]
@@ -70,7 +70,7 @@ def next_prime(n):
     """
     while _PRIMES[-1] <= n:
         _append_many()
-    return _PRIMES[bisect_right(_PRIMES, n)]
+    return next_(_PRIMES, n)
 
 
 @lru_cache(maxsize=None)

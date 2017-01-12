@@ -1,11 +1,8 @@
-from fibonacci import (
-    fib_index,
-    next_fib,
-)
+from fibonacci import Fibonacci
 
 
 def ans():
-    return fib_index(next_fib(int('9' * 999)))
+    return Fibonacci.index(Fibonacci.after(int('9' * 999))) + 1
     
 
 if __name__ == '__main__':
