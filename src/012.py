@@ -1,9 +1,9 @@
-from divisor import get_divisors
-from shape import triangle_nums
+from factor import get_divisors
+from figurate import Triangle
     
 
 def ans():
-    for num in triangle_nums():
+    for num in Triangle.nums():
         if 500 <= len(get_divisors(num)):
             return num
     

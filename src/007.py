@@ -1,10 +1,10 @@
-from prime import next_prime
+from prime import Prime
 
 
 def ans():
     n = 2
     for i in range(10000):
-        n = next_prime(n)
+        n = Prime.after(n)
     return n
 
 

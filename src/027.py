@@ -1,4 +1,4 @@
-from prime import is_prime
+from prime import Prime
 
 
 def f(n, a, b):
@@ -11,7 +11,7 @@ def ans():
     for a in range(-lim + 1, lim):
         for b in range(-lim, lim + 1):
             n = 0
-            while is_prime(f(n, a, b)):
+            while Prime.contains(f(n, a, b)):
                 n += 1
             if largest[2] < n:
                 largest = (a, b, n)

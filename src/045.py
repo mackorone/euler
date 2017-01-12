@@ -1,15 +1,15 @@
-from shape import (
-    hexagonal_nums,
-    pentagonal_nums,
-    triangle_nums,
+from figurate import (
+    Hexagonal,
+    Pentagonal,
+    Triangle,
 )
 
 
 def ans():
     generators = (
-        triangle_nums(),
-        pentagonal_nums(),
-        hexagonal_nums(),
+        Triangle.nums(),
+        Pentagonal.nums(),
+        Hexagonal.nums(),
     )
     nums = [next(g) for g in generators]
     while True:

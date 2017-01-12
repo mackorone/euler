@@ -1,4 +1,4 @@
-from divisor import get_divisors
+from factor import get_divisors
 from functools import lru_cache
 
 

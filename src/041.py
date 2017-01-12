@@ -1,4 +1,4 @@
-from prime import primes
+from prime import Prime
 
 
 def is_pandigital(x):
@@ -12,7 +12,7 @@ def is_pandigital(x):
 
 def ans():
     largest = None
-    for prime in primes(10000000):
+    for prime in Prime.nums(10000000):
         if is_pandigital(prime):
             largest = prime
     return largest

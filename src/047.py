@@ -1,4 +1,4 @@
-from prime import get_prime_factors
+from factor import get_prime_factors
 
 
 def check(start, count):

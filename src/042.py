@@ -1,5 +1,5 @@
+from figurate import Triangle
 from path import dirpath
-from shape import is_triangle
 
 
 def ans():
@@ -7,7 +7,7 @@ def ans():
     count = 0
     for word in words:
         value = sum(ord(c) - ord('A') + 1 for c in word)
-        if is_triangle(value):
+        if Triangle.contains(value):
             count += 1
     return count
     

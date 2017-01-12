@@ -1,8 +1,8 @@
-from prime import primes
+from prime import Prime
 
 
 def ans():
-    return sum(primes(2000000))
+    return sum(Prime.nums(2000000))
 
 
 if __name__ == '__main__':

@@ -1,11 +1,8 @@
-from prime import (
-    is_prime,
-    primes,
-)
+from prime import Prime
 
 
 def ans():
-    prime_list = list(primes(4000))
+    prime_list = list(Prime.nums(4000))
     longest = (0, 0)
     for i in range(len(prime_list)):
         sum_ = 0
@@ -13,7 +10,7 @@ def ans():
             sum_ += prime_list[j]                
             if 1000000 <= sum_:
                 break
-            if is_prime(sum_) and longest[1] < j - i + 1:
+            if Prime.contains(sum_) and longest[1] < j - i + 1:
                 longest = (sum_, j - i + 1)
     return longest[0]
             

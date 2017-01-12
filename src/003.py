@@ -1,12 +1,12 @@
 from math import sqrt
-from prime import is_prime
+from prime import Prime
 
 
 def ans():
     num = 600851475143
     end = int(sqrt(num)) + 1
     for i in reversed(range(2, end)):
-        if num % i == 0 and is_prime(i):
+        if num % i == 0 and Prime.contains(i):
             return i
 
 

@@ -6,7 +6,7 @@ from bisect import (
 
 class Sequence(object):
 
-    _NUMS = []
+    _NUMS = None
 
     @classmethod
     def _append(cls):
@@ -14,16 +14,18 @@ class Sequence(object):
 
     @classmethod
     def nums(cls, end=None):
+        """ Returns a generator for the sequence
+        """
         n = cls._NUMS[0]
         while n < end if end is not None else True:
-            yield prime
-            n = cls.next_after(n)
+            yield n
+            n = cls.after(n)
 
     @classmethod
     def contains(cls, n):
         """ Returns whether or not n is in the sequence
         """
-        return cls.index(_NUMS, n) is not None
+        return cls.index(n) is not None
 
     @classmethod
     def index(cls, n):
@@ -38,7 +40,7 @@ class Sequence(object):
 
     @classmethod
     def after(cls, n):
-        """ Returns the first value in the sequence greater than x
+        """ Returns the first value in the sequence greater than n
         """
         while cls._NUMS[-1] <= n:
             cls._append()

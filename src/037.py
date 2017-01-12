@@ -1,7 +1,4 @@
-from prime import (
-    is_prime,
-    primes,
-)
+from prime import Prime
 
 
 def is_truncatable(n):
@@ -9,16 +6,16 @@ def is_truncatable(n):
     if len(str_n) < 2:
         return False
     for i in range(1, len(str(n))):
-        if not is_prime(int(str_n[:i])):
+        if not Prime.contains(int(str_n[:i])):
             return False
-        if not is_prime(int(str_n[i:])):
+        if not Prime.contains(int(str_n[i:])):
             return False
     return True
 
 
 def ans():
     truncatable = set()
-    for p in primes():
+    for p in Prime.nums():
         if is_truncatable(p):
             truncatable.add(p)
         if len(truncatable) == 11:
