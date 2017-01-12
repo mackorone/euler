@@ -1,13 +1,5 @@
+from pandigital import is_pandigital
 from prime import Prime
-
-
-def is_pandigital(x):
-    if 9 < len(str(x)):
-        return False
-    for digit in range(len(str(x))):
-        if str(digit + 1) not in str(x):
-            return False
-    return True
 
 
 def ans():
