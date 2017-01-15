@@ -9,11 +9,7 @@ def get_value(name):
 
 
 def ans():
-    data = open(dirpath() + '022.txt').read()
-    names = sorted([
-        name.strip('"') for
-        name in data.split(',')
-    ])
+    names = sorted(open(dirpath() + '022.txt').read().split())
     total = 0
     for i, name in enumerate(names):
         total += (i + 1) * get_value(name)
