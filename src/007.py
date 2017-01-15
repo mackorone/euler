@@ -2,10 +2,7 @@ from prime import Prime
 
 
 def ans():
-    n = 2
-    for i in range(10000):
-        n = Prime.after(n)
-    return n
+    return Prime.nth(10001)
 
 
 if __name__ == '__main__':

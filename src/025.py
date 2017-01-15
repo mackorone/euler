@@ -2,7 +2,7 @@ from fibonacci import Fibonacci
 
 
 def ans():
-    return Fibonacci.index(Fibonacci.after(int('9' * 999))) + 1
+    return Fibonacci.index(Fibonacci.after(int('9' * 999)))
     
 
 if __name__ == '__main__':
