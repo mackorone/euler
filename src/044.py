@@ -24,7 +24,7 @@ def ans():
             Pentagonal.contains(one + two) and
             Pentagonal.contains(one - two)
         ):
-            return pair[0] - pair[1]
+            return one - two
     
 
 if __name__ == '__main__':
