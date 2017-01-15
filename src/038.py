@@ -9,11 +9,7 @@ def ans():
             string += str(product)
             if 9 < len(string):
                 break
-            if (
-                9 == len(string) and
-                is_pandigital(string) and
-                largest < int(string)
-            ):
+            if is_pandigital(string, to=9) and largest < int(string):
                 largest = int(string)
     return largest
     

@@ -31,7 +31,6 @@ class Sequence(object):
             cls._append()
         return cls._NUMS[n - 1]
 
-    # TODO: MACK - use set?
     @classmethod
     def contains(cls, n):
         """ Returns whether or not n is in the sequence

@@ -11,7 +11,7 @@ def ans():
             length = len(string)
             if 9 < length:
                 break
-            if 9 == length and is_pandigital(int(string)):
+            if is_pandigital(int(string), to=9):
                 products.add(product)
     return sum(products)
     

@@ -22,5 +22,4 @@ def ans():
     
 
 if __name__ == '__main__':
-    # TODO: this can be improved
     print(ans())
