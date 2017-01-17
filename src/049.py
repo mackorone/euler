@@ -12,7 +12,10 @@ def ans():
             seq = sorted(list(comb))
             if seq[0] < 1000:
                 continue
-            if seq[2] + seq[0] == 2 * seq[1]:
+            if (
+                seq[2] + seq[0] == 2 * seq[1] and
+                seq[0] != 1487
+            ):
                 return ''.join(str(n) for n in seq)
     
 
