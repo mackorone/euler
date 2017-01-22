@@ -36,6 +36,19 @@ def _of_a_kind(hand, count):
     )
 
 
+def _multi_of_a_kind(hand, first_grouping_func):
+    first_group = first_grouping_func(hand)
+    if not first_group:
+        return None
+    second_group = two_of_a_kind([
+        card for card in hand if
+        card not in first_group
+    ])
+    if not second_group:
+        return None
+    return first_group + second_group
+
+
 def high_card(hand):
     return _of_a_kind(hand, 1)
 
@@ -52,14 +65,12 @@ def four_of_a_kind(hand):
     return _of_a_kind(hand, 4)
 
 
+def two_pair(hand):
+    return _multi_of_a_kind(hand, two_of_a_kind)
+
+
 def full_house(hand):
-    three = three_of_a_kind(hand)
-    if not three:
-        return None
-    pair = two_of_a_kind([card for card in hand if card not in three])
-    if not pair:
-        return None
-    return three + pair
+    return _multi_of_a_kind(hand, three_of_a_kind)
 
 
 def straight(hand):
@@ -83,15 +94,53 @@ def straight_flush(hand):
     return flush(hand) if straight(hand) else None
 
 
+def list_less_than(list_one, list_two):
+    for i in range(len(list_one)):
+        first = list_one[i]
+        second = list_two[i]
+        if _value(first[0]) < _value(second[0]):
+            return True
+    return False
+
+
+def one_wins(one, two):
+    for func in [
+        straight_flush,    
+        four_of_a_kind,    
+        full_house,
+        flush,
+        straight,
+        three_of_a_kind,
+        two_pair,
+        two_of_a_kind,
+        high_card,
+    ]:
+        list_one = func(one)
+        list_two = func(two)
+        if list_one:
+            if not list_two:
+                return True
+            if list_less_than(list_one, list_two):
+                return False
+            if list_less_than(list_two, list_one):
+                return True
+            one = [c for c in one if c not in list_one]
+            two = [c for c in two if c not in list_two]
+        elif list_two:
+            return False
+    raise Exception('No clear winner')
+
+
 def ans():
     lines = open(dirpath() + '054.txt').readlines()
     turns = [line.strip().split() for line in lines]
-    num_wins = 0
+    num_one_wins = 0
     for cards in turns:
         one = cards[:5]
         two = cards[5:]
-    
-    return None
+        if one_wins(one, two):
+            num_one_wins += 1
+    return num_one_wins
     
 
 if __name__ == '__main__':
