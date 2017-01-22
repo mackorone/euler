@@ -5,21 +5,21 @@ from collections import (
 from path import dirpath
 
 
-def _value(rank):
+def value(rank):
     try:
         return int(rank)
     except ValueError:
         return 10 + 'TJQKA'.index(rank)
 
 
-def _sort_by_rank(hand):
+def sort_by_rank(hand):
     return list(reversed(sorted(
         hand,
-        key=lambda card: _value(card[0]),
+        key=lambda card: value(card[0]),
     )))
 
     
-def _of_a_kind(hand, count):
+def of_a_kind(hand, count):
     counts = defaultdict(list)
     for card in hand:
         counts[card[0]].append(card)
@@ -32,11 +32,11 @@ def _of_a_kind(hand, count):
         return None
     return max(
         filtered.values(),
-        key=lambda cards: _value(cards[0][0])
+        key=lambda cards: value(cards[0][0])
     )
 
 
-def _multi_of_a_kind(hand, first_grouping_func):
+def multi_of_a_kind(hand, first_grouping_func):
     first_group = first_grouping_func(hand)
     if not first_group:
         return None
@@ -50,33 +50,33 @@ def _multi_of_a_kind(hand, first_grouping_func):
 
 
 def high_card(hand):
-    return _of_a_kind(hand, 1)
+    return of_a_kind(hand, 1)
 
 
 def two_of_a_kind(hand):
-    return _of_a_kind(hand, 2)
+    return of_a_kind(hand, 2)
 
 
 def three_of_a_kind(hand):
-    return _of_a_kind(hand, 3)
+    return of_a_kind(hand, 3)
 
 
 def four_of_a_kind(hand):
-    return _of_a_kind(hand, 4)
+    return of_a_kind(hand, 4)
 
 
 def two_pair(hand):
-    return _multi_of_a_kind(hand, two_of_a_kind)
+    return multi_of_a_kind(hand, two_of_a_kind)
 
 
 def full_house(hand):
-    return _multi_of_a_kind(hand, three_of_a_kind)
+    return multi_of_a_kind(hand, three_of_a_kind)
 
 
 def straight(hand):
-    sorted_ = sorted([_value(card[0]) for card in hand])
+    sorted_ = sorted([value(card[0]) for card in hand])
     if sorted_ == list(range(sorted_[0], sorted_[-1] + 1)):
-        return _sort_by_rank(hand)
+        return sort_by_rank(hand)
     return None
 
 
@@ -86,7 +86,7 @@ def flush(hand):
         counts[card[1]].append(card)
     for cards in counts.values():
         if len(cards) == 5:
-            return _sort_by_rank(cards)
+            return sort_by_rank(cards)
     return None
 
 
@@ -98,7 +98,7 @@ def list_less_than(list_one, list_two):
     for i in range(len(list_one)):
         first = list_one[i]
         second = list_two[i]
-        if _value(first[0]) < _value(second[0]):
+        if value(first[0]) < value(second[0]):
             return True
     return False
 
