@@ -1,4 +1,4 @@
-from triangle import (
+from path import (
     get_triangle,
     max_path_value,
 )
