@@ -1,12 +1,8 @@
-from path import (
-    get_triangle,
-    max_path_value,
-)
+from path import max_sum_through_triangle
 
 
 def ans():
-    triangle = get_triangle('018.txt')
-    return max_path_value(triangle)
+    return max_sum_through_triangle('018.txt')
     
 
 if __name__ == '__main__':
