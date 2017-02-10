@@ -2,7 +2,7 @@ from collections import (
     defaultdict,
     namedtuple,
 )
-from path import dirpath
+from files import filepath
 
 
 def value(rank):
@@ -132,7 +132,7 @@ def one_wins(one, two):
 
 
 def ans():
-    lines = open(dirpath() + '054.txt').readlines()
+    lines = open(filepath('054.txt')).readlines()
     turns = [line.strip().split() for line in lines]
     num_one_wins = 0
     for cards in turns:

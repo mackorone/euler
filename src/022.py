@@ -1,4 +1,4 @@
-from path import dirpath
+from files import filepath
 
 
 def get_value(name):
@@ -9,7 +9,7 @@ def get_value(name):
 
 
 def ans():
-    names = sorted(open(dirpath() + '022.txt').read().split())
+    names = sorted(open(filepath('022.txt')).read().split())
     total = 0
     for i, name in enumerate(names):
         total += (i + 1) * get_value(name)

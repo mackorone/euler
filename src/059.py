@@ -1,5 +1,5 @@
+from files import filepath
 from itertools import product
-from path import dirpath
 
 
 def contains_common_words(string):
@@ -18,7 +18,7 @@ def decrypt(key, string):
 
 def ans():
 
-    content = open(dirpath() + '059.txt').read()
+    content = open(filepath('059.txt')).read()
     ordinals = [int(x) for x in content.strip().split(',')]
     encrypted = ''.join([chr(x) for x in ordinals])
 

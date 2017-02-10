@@ -2,9 +2,9 @@ from datetime import datetime
 from enum import Enum
 from glob import glob
 from json import loads
-from path import (
-    dirpath,
+from files import (
     filename,
+    filepath,
 )
 from subprocess import (
     PIPE,
@@ -131,13 +131,13 @@ def check(answers, paths, stream):
 if __name__ == '__main__':
 
     try:
-        answers = loads(open(dirpath() + 'answers.txt').read())
+        answers = loads(open(filepath('answers.txt')).read())
     except FileNotFoundError:
         answers = {}
 
     if 1 < len(argv):
         paths = argv[1:]
     else:
-        paths = sorted(glob(dirpath() + '[0-9][0-9][0-9].py'))
+        paths = sorted(glob(filepath('[0-9][0-9][0-9].py')))
 
     check(answers, paths, stdout)

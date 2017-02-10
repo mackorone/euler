@@ -1,8 +1,8 @@
-from path import dirpath
+from files import filepath
 
 
 def ans():
-    lines = open(dirpath() + '013.txt').readlines()
+    lines = open(filepath('013.txt')).readlines()
     sum_ = sum(int(line.strip()) for line in lines)
     return str(sum_)[:10]
     

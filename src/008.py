@@ -1,8 +1,8 @@
-from path import dirpath
+from files import filepath
 
 
 def ans():
-    lines = open(dirpath() + '008.txt').readlines()
+    lines = open(filepath('008.txt')).readlines()
     chars = ''.join(x.strip() for x in lines)
     largest = 0
     for i in range(len(chars) - 12):

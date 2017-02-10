@@ -5,7 +5,7 @@ from triangle import (
 
 
 def ans():
-    triangle = get_triangle('018.txt')
+    triangle = get_triangle('067.txt')
     return max_path_value(triangle)
     
 
