@@ -1,13 +1,14 @@
 from itertools import count
 from prime import Prime
 from tuples import get_sequence_of_pairs
+from tuples import get_sequence_of_triples
 
 
 def ans():
 
-    for i in get_sequence_of_pairs().nums():
+    for i in get_sequence_of_triples().nums():
         print(i)
-        if 5 < i[0]:
+        if any(x > 20 for x in i):
             break
     return None
 
