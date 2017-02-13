@@ -1,23 +1,11 @@
 from figurate import Pentagonal
+from tuples import gen_tuples
 
-
-def indices():
-    start = 3000
-    x = start
-    y = start
-    while True:
-        yield (x, y)
-        if x - 1 <= y + 1:
-            start += 1
-            x = start
-            y = 1
-        else:
-            x -= 1
-            y += 1
-     
 
 def ans():
-    for pair in indices():
+    for pair in gen_tuples():
+        if pair[0] < 2100:
+            continue
         one = Pentagonal.nth(pair[0])
         two = Pentagonal.nth(pair[1])
         if (

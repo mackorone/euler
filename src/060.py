@@ -1,34 +1,39 @@
-from itertools import count
+from collections import defaultdict
+from itertools import combinations
 from prime import Prime
-from tuples import get_sequence_of_pairs
-from tuples import get_sequence_of_triples
+from tuples import gen_tuples
 
 
 def ans():
 
-    for i in get_sequence_of_triples().nums():
-        print(i)
-        if any(x > 20 for x in i):
-            break
-    return None
+    disqualified = defaultdict(set)
 
-    nums = [3, 7, 109, 673]
-    for p in Prime.nums():
-        print(p)
-        if p <= nums[-1]:
-            continue
-        all_primes = True
-        for n in nums:
-            if not (
-                Prime.contains(int(str(p) + str(n))) and
-                Prime.contains(int(str(n) + str(p)))
-            ):
-                all_primes = False
+    for indices in gen_tuples(4):
+
+        primes = None
+        satisfies = True
+
+        for i, j in combinations(indices, 2):
+
+            if i in disqualified[j]:
+                satisfies = False
                 break
-        if all_primes:
-            return p
-    
-    return None
+
+            if not primes:
+                primes = {k: Prime.nth(k) for k in indices}
+                print(list(reversed(sorted(list(primes.values())))))
+
+            if not (
+                Prime.contains(int(str(primes[i]) + str(primes[j]))) and
+                Prime.contains(int(str(primes[j]) + str(primes[i])))
+            ):
+                disqualified[i].add(j)
+                disqualified[j].add(i)
+                satisfies = False
+                break
+
+        if satisfies:
+            return sum(primes.values())
     
 
 if __name__ == '__main__':

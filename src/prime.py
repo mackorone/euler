@@ -50,7 +50,7 @@ class Prime(Sequence):
         end = int(sqrt(n)) + 1
         while cls._NUMS[-1] < end:
             cls._append()
-        for p in cls.nums(end):
+        for p in cls.gen_nums(end):
             if n % p == 0:
                 return False
         return True

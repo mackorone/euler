@@ -3,7 +3,7 @@ from prime import Prime
 
 
 def ans():
-    for prime in Prime.nums():
+    for prime in Prime.gen_nums():
         if prime < 120000:
             continue
 
@@ -12,14 +12,14 @@ def ans():
         length = len(list_)
         for count in range(length):
             combs = combinations(range(length), count)
-            for indicies in combs:
+            for indices in combs:
 
                 # Count the number of primes by replacing
                 # the selected digits with some other digit
                 generated_primes = set()
                 for replacement in range(10):
                     copy = list_.copy()
-                    for i in indicies:
+                    for i in indices:
                         copy[i] = str(replacement)
                     number = int(''.join(copy))
                     if Prime.contains(number):

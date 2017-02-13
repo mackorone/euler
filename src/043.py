@@ -1,12 +1,12 @@
 from itertools import permutations
-from pandigital import pandigital_nums
+from pandigital import gen_pandigitals
 from prime import Prime
 
 
 def ans():
-    divisors = list(Prime.nums(18))
+    divisors = list(Prime.gen_nums(18))
     sum_ = 0
-    for p in pandigital_nums(from_=0, to=9):
+    for p in gen_pandigitals(from_=0, to=9):
         has_property = True
         for i in range(1, 8):
             dividend = int(str(p)[i:i + 3])

@@ -7,9 +7,9 @@ from figurate import (
 
 def ans():
     generators = (
-        Triangle.nums(),
-        Pentagonal.nums(),
-        Hexagonal.nums(),
+        Triangle.gen_nums(),
+        Pentagonal.gen_nums(),
+        Hexagonal.gen_nums(),
     )
     nums = [next(g) for g in generators]
     while True:

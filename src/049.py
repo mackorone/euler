@@ -5,7 +5,7 @@ from prime import Prime
 
 def ans():
     groups = defaultdict(set)
-    for prime in Prime.nums(10000):
+    for prime in Prime.gen_nums(10000):
         groups[''.join(sorted(str(prime)))].add(prime)
     for set_ in groups.values():
         for comb in combinations(set_, 3):

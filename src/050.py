@@ -2,7 +2,7 @@ from prime import Prime
 
 
 def ans():
-    prime_list = list(Prime.nums(4000))
+    prime_list = list(Prime.gen_nums(4000))
     longest = (0, 0)
     for i in range(len(prime_list)):
         sum_ = 0

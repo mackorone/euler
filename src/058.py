@@ -1,9 +1,9 @@
 from prime import Prime
-from spiral import diagonals
+from spiral import gen_diagonals
 
 
 def ans():
-    diags = diagonals()
+    diags = gen_diagonals()
     next(diags)
     i = 1
     prime_count = 0

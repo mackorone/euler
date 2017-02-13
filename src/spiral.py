@@ -1,4 +1,4 @@
-def diagonals():
+def gen_diagonals():
     yield (1,)
     incs = [2, 4, 6, 8]
     nums = [3, 5, 7, 9]

@@ -13,7 +13,7 @@ class Sequence(object):
         raise NotImplementedError
 
     @classmethod
-    def nums(cls, end=None):
+    def gen_nums(cls, end=None):
         """ Returns a generator for the sequence
         """
         n = cls._NUMS[0]

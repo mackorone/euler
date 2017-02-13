@@ -3,7 +3,7 @@ from figurate import Triangle
     
 
 def ans():
-    for num in Triangle.nums():
+    for num in Triangle.gen_nums():
         if 500 <= len(get_divisors(num)):
             return num
     

@@ -15,7 +15,7 @@ def is_truncatable(n):
 
 def ans():
     truncatable = set()
-    for p in Prime.nums():
+    for p in Prime.gen_nums():
         if is_truncatable(p):
             truncatable.add(p)
         if len(truncatable) == 11:

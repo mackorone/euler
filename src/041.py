@@ -4,7 +4,7 @@ from prime import Prime
 
 def ans():
     largest = None
-    for prime in Prime.nums(10000000):
+    for prime in Prime.gen_nums(10000000):
         if is_pandigital(prime):
             largest = prime
     return largest

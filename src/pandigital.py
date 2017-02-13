@@ -14,7 +14,7 @@ def is_pandigital(n, from_=1, to=None):
     return all(d in str_n for d in _digits(from_, to))
 
 
-def pandigital_nums(from_=1, to=9):
+def gen_pandigitals(from_=1, to=9):
     perms = permutations(_digits(from_, to))
     for n in perms:
         if n[0] != '0':

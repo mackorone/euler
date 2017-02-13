@@ -2,7 +2,7 @@ from prime import Prime
 
 
 def ans():
-    return sum(Prime.nums(2000000))
+    return sum(Prime.gen_nums(2000000))
 
 
 if __name__ == '__main__':
