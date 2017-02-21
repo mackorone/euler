@@ -1,25 +1,31 @@
+from itertools import combinations
 from prime import Prime
+
+
+def compatible(one, two):
+    return (
+        Prime.contains(int(str(one) + str(two))) and
+        Prime.contains(int(str(two) + str(one)))
+    )
+
+
+def remarkable(tuple_):
+    for one, two in combinations(tuple_, 2):
+        if not compatible(one, two):
+            return False
+    return True
 
 
 def ans():
     size = 5
-    groups = []
+    skip_to = 8300
     for p in Prime.gen_nums():
-        new_groups = []
-        for group in groups:
-            for e in group:
-                if not (
-                    Prime.contains(int(str(p) + str(e))) and
-                    Prime.contains(int(str(e) + str(p)))
-                ):
-                    break
-            else:
-                new_groups.append(group | {p})
-        for new_group in new_groups:
-            if len(new_group) == size:
-                return sum(new_group)
-            groups.append(new_group)
-        groups.append({p})
+        if p < skip_to:
+            continue
+        nums = [q for q in Prime.gen_nums(p) if compatible(q, p)]
+        for tuple_ in combinations(nums, size - 1):
+            if remarkable(tuple_):
+                return p + sum(tuple_)
 
 
 if __name__ == '__main__':
