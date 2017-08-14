@@ -11,6 +11,8 @@ from prime import Prime
 def get_prime_factors(n):
     """ Returns the counts of each prime factor of n
     """
+    if n < 1:
+        raise ValueError
     if n == 1:
         return Counter()
     divisor = 2
