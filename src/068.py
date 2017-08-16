@@ -15,9 +15,9 @@ def get_groups(perm):
     ]
 
 
-def is_magic(perm):
+def is_magic(groups):
     prev_sum = None
-    for group in get_groups(perm):
+    for group in groups:
         sum_ = sum(group)
         if not prev_sum:
             prev_sum = sum_
@@ -27,8 +27,7 @@ def is_magic(perm):
     return True
 
 
-def serialize(perm):
-    groups = get_groups(perm)
+def serialize(groups):
     min_ = None
     index = None
     for i, group in enumerate(groups):
@@ -55,10 +54,11 @@ def ans():
     for in_perm in interior_perms:
         for ex_perm in exterior_perms:
             perm = ex_perm + in_perm
-            if is_magic(perm):
-                magics.append(perm)  
-    return max(serialize(perm) for perm in magics)
-    
+            groups = get_groups(perm)
+            if is_magic(groups):
+                magics.append(groups)
+    return max(serialize(groups) for groups in magics)
+
 
 if __name__ == '__main__':
     print(ans())

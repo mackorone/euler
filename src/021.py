@@ -1,10 +1,5 @@
-from factor import get_divisors
+from factor import get_proper_divisors
 from functools import lru_cache
-
-
-@lru_cache(maxsize=None)
-def get_proper_divisors(i):
-    return get_divisors(i) - {i}
 
 
 def ans():
