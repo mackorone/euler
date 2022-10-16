@@ -10,7 +10,7 @@ def ans():
     while d < 10 ** 6:
         if Fraction(n, d) < three_sevenths:
             n += 1
-        elif three_sevenths <= Fraction(n, d):
+        else:
             d += 1
         distance = three_sevenths - Fraction(n, d)
         if distance <= 0:

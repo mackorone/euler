@@ -17,7 +17,7 @@ def ans():
         n = one * two
         if 10 ** 7 <= n:
             continue
-        num_coprimes = one * two - one - two + 1
+        num_coprimes = (one - 1) * (two - 1)
         if sorted(str(n)) == sorted(str(num_coprimes)):
             value = n / num_coprimes
             if not min_value or value < min_value:

@@ -1,5 +1,4 @@
 from pandigital import is_pandigital
-from pprint import pprint
 
 
 def ans():
